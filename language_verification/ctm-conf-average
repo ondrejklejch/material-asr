@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]; then
+   echo "Usage: $0 ctm"
+   exit 100
+fi
+
+CTM=$1
+
+cat $CTM | grep -v ^\;\; | awk 'BEGIN{c=0.0;s=0.0;d=0.0;T=0.0}{c+=1.0; s+=$NF; T+=$(NF-2); d+=$(NF-2)*$NF; }END{print "Average time-weighted confidence "d/T;}'

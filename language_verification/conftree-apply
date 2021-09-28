@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [ $# -ne 3 ]; then
+   echo "Usage: $0 ctm-src tree ctm-tgt"
+   exit 100
+fi
+
+SRC=$1
+TREE=$2
+TGT=$3
+
+if [ ! -e $SRC ]; then
+    >&2 echo "Source CTM $SRC does not exist"
+    exit 100
+fi
+if [ ! -e $TREE ]; then
+    >&2 echo "Tree $TREE does not exist"
+    exit 100
+fi
+if [ -e $TGT ]; then
+    >&2 echo "Target CTM $TGT exists"
+    exit 100
+fi
+
+awk '{printf("%s %d %.2f %.2f %s ",$1,$2,$3,$4,$5); if ($6 <= 1.0) printf("%f\n",$6); else printf("1.0000\n")}' $SRC | perl smoothtree-ctm.pl $TREE - > $TGT

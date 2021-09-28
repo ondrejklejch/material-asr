@@ -1,0 +1,2 @@
+webrtcvad
+git+https://github.com/choko/sequitur-g2p@master
